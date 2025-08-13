@@ -1,0 +1,115 @@
+{
+  "navigation": {
+    "home": "Главная",
+    "about": "О нас",
+    "features": "Возможности",
+    "pricing": "Цены",
+    "contact": "Контакты",
+    "brand": "reserv",
+    "menu": "Меню",
+    "categories": "Категории",
+    "library": "Библиотека"
+  },
+  "auth": {
+    "login": "Войти",
+    "signup": "Начать продавать",
+    "dashboard": "Панель управления"
+  },
+  "cart": {
+    "addToCart": "Добавить в корзину",
+    "removeFromCart": "Удалить из корзины",
+    "viewInLibrary": "Посмотреть в библиотеке"
+  },
+  "filters": {
+    "viewAll": "Показать все",
+    "all": "Все"
+  },
+  "search": {
+    "placeholder": "Поиск товаров"
+  },
+  "categories": {
+    "all": "Все",
+    "business-money": "Бизнес и деньги",
+    "software-development": "Разработка ПО",
+    "writing-publishing": "Письмо и издательство",
+    "other": "Другое",
+    "education": "Образование",
+    "self-improvement": "Саморазвитие",
+    "fitness-health": "Фитнес и здоровье",
+    "design": "Дизайн",
+    "drawing-painting": "Рисование и живопись",
+    "music": "Музыка",
+    "photography": "Фотография"
+  },
+  "subcategories": {
+    "yoga": "Йога",
+    "mental-health": "Психическое здоровье",
+    "nutrition": "Питание",
+    "workout-plans": "Планы тренировок",
+    "songwriting": "Написание песен",
+    "music-production": "Музыкальное продюсирование",
+    "music-theory": "Теория музыки",
+    "music-history": "История музыки",
+    "accounting": "Бухгалтерский учет",
+    "entrepreneurship": "Предпринимательство",
+    "gigs-side-projects": "Подработки и сайд‑проекты",
+    "investing": "Инвестирование",
+    "management-leadership": "Менеджмент и лидерство",
+    "marketing-sales": "Маркетинг и продажи",
+    "networking-careers-jobs": "Нетворкинг, карьера и работа",
+    "personal-finance": "Личные финансы",
+    "real-estate": "Недвижимость",
+
+    "web-development": "Веб‑разработка",
+    "mobile-development": "Мобильная разработка",
+    "game-development": "Разработка игр",
+    "programming-languages": "Языки программирования",
+    "devops": "DevOps",
+
+    "fiction": "Художественная литература",
+    "non-fiction": "Нон‑фикшн",
+    "blogging": "Блогинг",
+    "copywriting": "Копирайтинг",
+    "self-publishing": "Самоиздательство",
+
+    "online-courses": "Онлайн‑курсы",
+    "tutoring": "Репетиторство",
+    "test-preparation": "Подготовка к тестам",
+    "language-learning": "Изучение языков",
+
+    "productivity": "Продуктивность",
+    "personal-development": "Личностное развитие",
+    "mindfulness": "Осознанность",
+    "career-growth": "Карьерный рост",
+
+    "ui-ux": "UI/UX",
+    "graphic-design": "Графический дизайн",
+    "3d-modeling": "3D‑моделирование",
+    "typography": "Типографика",
+
+    "watercolor": "Акварель",
+    "acrylic": "Акрил",
+    "oil": "Масло",
+    "pastel": "Пастель",
+    "charcoal": "Уголь",
+
+    "portrait": "Портрет",
+    "landscape": "Пейзаж",
+    "street-photography": "Уличная фотография",
+    "nature": "Природа",
+    "macro": "Макросъёмка"
+  },
+  "product": {
+    "ratings": "{count, plural, one {# отзыв} few {# отзыва} many {# отзывов} other {# отзывов}}",
+    "noDescription": "Описание отсутствует",
+    "urlCopied": "Ссылка скопирована в буфер",
+    "ratingsTitle": "Отзывы",
+    "stars": "{count, plural, one {# звезда} few {# звезды} many {# звезд} other {# звезд}}"
+  },
+  "common": {
+    "loading": "Загрузка...",
+    "error": "Ошибка",
+    "success": "Успешно",
+    "back": "Назад"
+  }
+}

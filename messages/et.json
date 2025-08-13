@@ -1,0 +1,117 @@
+{
+  "navigation": {
+    "home": "Avaleht",
+    "about": "Meist",
+    "features": "Funktsioonid",
+    "pricing": "Hinnad",
+    "contact": "Kontakt",
+    "brand": "reserv",
+    "menu": "Menüü",
+    "categories": "Kategooriad",
+    "library": "Raamatukogu"
+  },
+  "auth": {
+    "login": "Logi sisse",
+    "signup": "Alusta müümist",
+    "dashboard": "Töölaud"
+  },
+  "cart": {
+    "addToCart": "Lisa ostukorvi",
+    "removeFromCart": "Eemalda ostukorvist",
+    "viewInLibrary": "Vaata raamatukogus"
+  },
+  "filters": {
+    "viewAll": "Vaata kõiki",
+    "all": "Kõik"
+  },
+  "search": {
+    "placeholder": "Otsi tooteid"
+  },
+  "categories": {
+    "all": "Kõik",
+    "business-money": "Äri ja raha",
+    "software-development": "Tarkvaraarendus",
+    "writing-publishing": "Kirjutamine ja kirjastamine",
+    "other": "Muu",
+    "education": "Haridus",
+    "self-improvement": "Enesetäiendamine",
+    "fitness-health": "Treening ja tervis",
+    "design": "Disain",
+    "drawing-painting": "Joonistamine ja maalimine",
+    "music": "Muusika",
+    "photography": "Fotograafia"
+  },
+  "subcategories": {
+    "accounting": "Raamatupidamine",
+    "entrepreneurship": "Ettevõtlus",
+    "gigs-side-projects": "Kõrvaltööd ja projektid",
+    "investing": "Investeerimine",
+    "management-leadership": "Juhtimine ja liidrioskused",
+    "marketing-sales": "Turundus ja müük",
+    "networking-careers-jobs": "Võrgustumine, karjäär ja töö",
+    "personal-finance": "Isiklikud rahaasjad",
+    "real-estate": "Kinnisvara",
+
+    "web-development": "Veebiarendus",
+    "mobile-development": "Mobiiliarendus",
+    "game-development": "Mänguarendus",
+    "programming-languages": "Programmeermiskeeled",
+    "devops": "DevOps",
+
+    "fiction": "Ilukirjandus",
+    "non-fiction": "Teabekirjandus",
+    "blogging": "Blogimine",
+    "copywriting": "Reklaamkirjutamine",
+    "self-publishing": "Ise kirjastamine",
+
+    "online-courses": "Veebikursused",
+    "tutoring": "Eraõpetus",
+    "test-preparation": "Testide ettevalmistus",
+    "language-learning": "Keeleõpe",
+
+    "productivity": "Tootlikkus",
+    "personal-development": "Eneseareng",
+    "mindfulness": "Teadvelolek",
+    "career-growth": "Karjäärikasv",
+
+    "workout-plans": "Treeningkavad",
+    "nutrition": "Toitumine",
+    "mental-health": "Vaimne tervis",
+    "yoga": "Jooga",
+
+    "ui-ux": "UI/UX",
+    "graphic-design": "Graafiline disain",
+    "3d-modeling": "3D-modelleerimine",
+    "typography": "Tüpograafia",
+
+    "watercolor": "Akvarell",
+    "acrylic": "Akrüül",
+    "oil": "Õli",
+    "pastel": "Pastell",
+    "charcoal": "Söejoonistus",
+
+    "songwriting": "Laulukirjutamine",
+    "music-production": "Muusikatootmine",
+    "music-theory": "Muusikateooria",
+    "music-history": "Muusika ajalugu",
+
+    "portrait": "Portree",
+    "landscape": "Maastik",
+    "street-photography": "Tänavafotograafia",
+    "nature": "Loodus",
+    "macro": "Makro"
+  },
+  "product": {
+    "ratings": "{count, plural, one {# hinnang} other {# hinnangut}}",
+    "noDescription": "Kirjeldus puudub",
+    "urlCopied": "URL kopeeritud lõikelauale",
+    "ratingsTitle": "Hinnangud",
+    "stars": "{count, plural, one {# tärn} other {# tärni}}"
+  },
+  "common": {
+    "loading": "Laadimine...",
+    "error": "Viga",
+    "success": "Õnnestus",
+    "back": "Tagasi"
+  }
+}

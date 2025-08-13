@@ -1,0 +1,117 @@
+{
+  "navigation": {
+    "home": "Home",
+    "about": "About",
+    "features": "Features",
+    "pricing": "Pricing",
+    "contact": "Contact",
+    "brand": "reserv",
+    "menu": "Menu",
+    "categories": "Categories",
+    "library": "Library"
+  },
+  "auth": {
+    "login": "Log in",
+    "signup": "Start selling",
+    "dashboard": "Dashboard"
+  },
+  "cart": {
+    "addToCart": "Add to cart",
+    "removeFromCart": "Remove from cart",
+    "viewInLibrary": "View in Library"
+  },
+  "filters": {
+    "viewAll": "View All",
+    "all": "All"
+  },
+  "search": {
+    "placeholder": "Search products"
+  },
+  "categories": {
+    "all": "All",
+    "business-money": "Business & Money",
+    "software-development": "Software Development",
+    "writing-publishing": "Writing & Publishing",
+    "other": "Other",
+    "education": "Education",
+    "self-improvement": "Self Improvement",
+    "fitness-health": "Fitness & Health",
+    "design": "Design",
+    "drawing-painting": "Drawing & Painting",
+    "music": "Music",
+    "photography": "Photography"
+  },
+  "subcategories": {
+    "accounting": "Accounting",
+    "entrepreneurship": "Entrepreneurship",
+    "gigs-side-projects": "Gigs & Side Projects",
+    "investing": "Investing",
+    "management-leadership": "Management & Leadership",
+    "marketing-sales": "Marketing & Sales",
+    "networking-careers-jobs": "Networking, Careers & Jobs",
+    "personal-finance": "Personal Finance",
+    "real-estate": "Real Estate",
+
+    "web-development": "Web Development",
+    "mobile-development": "Mobile Development",
+    "game-development": "Game Development",
+    "programming-languages": "Programming Languages",
+    "devops": "DevOps",
+
+    "fiction": "Fiction",
+    "non-fiction": "Non-Fiction",
+    "blogging": "Blogging",
+    "copywriting": "Copywriting",
+    "self-publishing": "Self-Publishing",
+
+    "online-courses": "Online Courses",
+    "tutoring": "Tutoring",
+    "test-preparation": "Test Preparation",
+    "language-learning": "Language Learning",
+
+    "productivity": "Productivity",
+    "personal-development": "Personal Development",
+    "mindfulness": "Mindfulness",
+    "career-growth": "Career Growth",
+
+    "workout-plans": "Workout Plans",
+    "nutrition": "Nutrition",
+    "mental-health": "Mental Health",
+    "yoga": "Yoga",
+
+    "ui-ux": "UI/UX",
+    "graphic-design": "Graphic Design",
+    "3d-modeling": "3D Modeling",
+    "typography": "Typography",
+
+    "watercolor": "Watercolor",
+    "acrylic": "Acrylic",
+    "oil": "Oil",
+    "pastel": "Pastel",
+    "charcoal": "Charcoal",
+
+    "songwriting": "Songwriting",
+    "music-production": "Music Production",
+    "music-theory": "Music Theory",
+    "music-history": "Music History",
+
+    "portrait": "Portrait",
+    "landscape": "Landscape",
+    "street-photography": "Street Photography",
+    "nature": "Nature",
+    "macro": "Macro"
+  },
+  "product": {
+    "ratings": "{count, plural, one {# rating} other {# ratings}}",
+    "noDescription": "No description provided",
+    "urlCopied": "URL copied to clipboard",
+    "ratingsTitle": "Ratings",
+    "stars": "{count, plural, one {# star} other {# stars}}"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "back": "Back"
+  }
+}

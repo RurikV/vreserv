@@ -1,0 +1,117 @@
+{
+  "navigation": {
+    "home": "Home",
+    "about": "Chi siamo",
+    "features": "Funzionalità",
+    "pricing": "Prezzi",
+    "contact": "Contatti",
+    "brand": "reserv",
+    "menu": "Menu",
+    "categories": "Categorie",
+    "library": "Libreria"
+  },
+  "auth": {
+    "login": "Accedi",
+    "signup": "Inizia a vendere",
+    "dashboard": "Dashboard"
+  },
+  "cart": {
+    "addToCart": "Aggiungi al carrello",
+    "removeFromCart": "Rimuovi dal carrello",
+    "viewInLibrary": "Visualizza nella libreria"
+  },
+  "filters": {
+    "viewAll": "Visualizza tutto",
+    "all": "Tutto"
+  },
+  "search": {
+    "placeholder": "Cerca prodotti"
+  },
+  "categories": {
+    "all": "Tutto",
+    "business-money": "Business e denaro",
+    "software-development": "Sviluppo software",
+    "writing-publishing": "Scrittura e pubblicazione",
+    "other": "Altro",
+    "education": "Istruzione",
+    "self-improvement": "Crescita personale",
+    "fitness-health": "Fitness e salute",
+    "design": "Design",
+    "drawing-painting": "Disegno e pittura",
+    "music": "Musica",
+    "photography": "Fotografia"
+  },
+  "subcategories": {
+    "accounting": "Contabilità",
+    "entrepreneurship": "Imprenditorialità",
+    "gigs-side-projects": "Lavoretti e progetti secondari",
+    "investing": "Investimenti",
+    "management-leadership": "Management e leadership",
+    "marketing-sales": "Marketing e vendite",
+    "networking-careers-jobs": "Networking, carriera e lavoro",
+    "personal-finance": "Finanze personali",
+    "real-estate": "Immobili",
+
+    "web-development": "Sviluppo web",
+    "mobile-development": "Sviluppo mobile",
+    "game-development": "Sviluppo giochi",
+    "programming-languages": "Linguaggi di programmazione",
+    "devops": "DevOps",
+
+    "fiction": "Narrativa",
+    "non-fiction": "Saggistica",
+    "blogging": "Blogging",
+    "copywriting": "Copywriting",
+    "self-publishing": "Auto-pubblicazione",
+
+    "online-courses": "Corsi online",
+    "tutoring": "Ripetizioni",
+    "test-preparation": "Preparazione ai test",
+    "language-learning": "Apprendimento lingue",
+
+    "productivity": "Produttività",
+    "personal-development": "Sviluppo personale",
+    "mindfulness": "Mindfulness",
+    "career-growth": "Crescita professionale",
+
+    "workout-plans": "Programmi di allenamento",
+    "nutrition": "Nutrizione",
+    "mental-health": "Salute mentale",
+    "yoga": "Yoga",
+
+    "ui-ux": "UI/UX",
+    "graphic-design": "Graphic design",
+    "3d-modeling": "Modellazione 3D",
+    "typography": "Tipografia",
+
+    "watercolor": "Acquerello",
+    "acrylic": "Acrilico",
+    "oil": "Olio",
+    "pastel": "Pastello",
+    "charcoal": "Carboncino",
+
+    "songwriting": "Scrittura di canzoni",
+    "music-production": "Produzione musicale",
+    "music-theory": "Teoria musicale",
+    "music-history": "Storia della musica",
+
+    "portrait": "Ritratto",
+    "landscape": "Paesaggio",
+    "street-photography": "Fotografia di strada",
+    "nature": "Natura",
+    "macro": "Macro"
+  },
+  "product": {
+    "ratings": "{count, plural, one {# valutazione} other {# valutazioni}}",
+    "noDescription": "Nessuna descrizione disponibile",
+    "urlCopied": "URL copiato negli appunti",
+    "ratingsTitle": "Valutazioni",
+    "stars": "{count, plural, one {# stella} other {# stelle}}"
+  },
+  "common": {
+    "loading": "Caricamento...",
+    "error": "Errore",
+    "success": "Successo",
+    "back": "Indietro"
+  }
+}

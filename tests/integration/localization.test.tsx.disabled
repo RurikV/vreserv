@@ -1,0 +1,311 @@
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
+import { render, screen, waitFor, fireEvent } from '@testing-library/react'
+import { NextIntlClientProvider } from 'next-intl'
+
+// Hoist React import so it can be used in vi.mock factory functions
+const React = vi.hoisted(() => require('react'))
+
+import { LanguageSelector } from '@/components/language-selector'
+import { Navbar } from '@/modules/home/ui/components/navbar'
+
+// Import real message files
+import enMessages from '../../messages/en.json'
+import ruMessages from '../../messages/ru.json'
+import frMessages from '../../messages/fr.json'
+import itMessages from '../../messages/it.json'
+import etMessages from '../../messages/et.json'
+
+// Real messages for each locale
+const messagesByLocale = {
+  en: enMessages,
+  ru: ruMessages,
+  fr: frMessages,
+  it: itMessages,
+  et: etMessages
+} as const
+
+type Locale = keyof typeof messagesByLocale
+
+
+// For integration tests, use real navigation to preserve next-intl context
+// Only mock the minimal necessary parts without breaking translations
+const mockPush = vi.hoisted(() => vi.fn())
+
+// Use a more targeted mock that preserves next-intl functionality
+vi.mock('@/navigation', async () => {
+  const actual = await vi.importActual('@/navigation')
+  return {
+    ...actual,
+    useRouter: () => ({ push: mockPush }),
+  }
+})
+
+// Mock Google Fonts
+vi.mock('next/font/google', () => ({
+  Poppins: () => ({
+    className: 'mocked-poppins'
+  })
+}))
+
+// Mock TRPC and TanStack Query
+vi.mock('@/trpc/client', () => ({
+  useTRPC: () => ({
+    auth: {
+      session: {
+        queryOptions: () => ({
+          queryKey: ['auth', 'session'],
+          queryFn: () => Promise.resolve(null)
+        })
+      }
+    }
+  })
+}))
+
+vi.mock('@tanstack/react-query', () => ({
+  useQuery: () => ({
+    data: null,
+    isLoading: false,
+    error: null
+  })
+}))
+
+// Mock Radix UI dropdown components
+vi.mock('@/components/ui/dropdown-menu', () => ({
+  DropdownMenu: ({ children }: { children: React.ReactNode }) => {
+    return React.createElement('div', { 'data-testid': 'dropdown-menu' }, children)
+  },
+  DropdownMenuTrigger: ({ children, asChild }: { children: React.ReactNode, asChild?: boolean }) => {
+    return asChild ? children : React.createElement('div', { 'data-testid': 'dropdown-trigger' }, children)
+  },
+  DropdownMenuContent: ({ children }: { children: React.ReactNode }) => {
+    return React.createElement('div', { 
+      'data-testid': 'dropdown-content', 
+      role: 'menu'
+    }, children)
+  },
+  DropdownMenuItem: ({ children, onClick }: { children: React.ReactNode, onClick?: () => void }) => {
+    return React.createElement('div', { 
+      'data-testid': 'dropdown-item', 
+      role: 'menuitem',
+      onClick 
+    }, children)
+  }
+}))
+
+// Helper to render components with real i18n context
+function renderWithLocale(component: React.ReactElement, locale: Locale = 'en') {
+  const messages = messagesByLocale[locale]
+  
+  return render(
+    <NextIntlClientProvider messages={messages} locale={locale}>
+      {component}
+    </NextIntlClientProvider>
+  )
+}
+
+describe('Real Localization Integration Tests', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+    mockPush.mockClear()
+  })
+
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
+  describe('Translation Loading', () => {
+    it('loads real English translations correctly', () => {
+      renderWithLocale(<Navbar />, 'en')
+      
+      // Verify actual translations from en.json are loaded
+      expect(screen.getByText('Home')).toBeInTheDocument()
+      expect(screen.getByText('About')).toBeInTheDocument()
+      expect(screen.getByText('Features')).toBeInTheDocument()
+      expect(screen.getByText('Pricing')).toBeInTheDocument()
+      expect(screen.getByText('Contact')).toBeInTheDocument()
+    })
+
+    it('loads real Russian translations correctly', () => {
+      renderWithLocale(<Navbar />, 'ru')
+      
+      // Verify actual translations from ru.json are loaded
+      expect(screen.getByText('Главная')).toBeInTheDocument()
+      expect(screen.getByText('О нас')).toBeInTheDocument()
+      expect(screen.getByText('Возможности')).toBeInTheDocument()
+      expect(screen.getByText('Цены')).toBeInTheDocument()
+      expect(screen.getByText('Контакты')).toBeInTheDocument()
+      
+      // Verify English text is NOT present
+      expect(screen.queryByText('Home')).not.toBeInTheDocument()
+      expect(screen.queryByText('About')).not.toBeInTheDocument()
+    })
+
+    it('verifies all message files contain required navigation keys', () => {
+      const requiredKeys = [
+        'navigation.home',
+        'navigation.about', 
+        'navigation.features',
+        'navigation.pricing',
+        'navigation.contact'
+      ]
+
+      Object.entries(messagesByLocale).forEach(([locale, messages]) => {
+        requiredKeys.forEach(key => {
+          const keyPath = key.split('.')
+          const value = keyPath.reduce((obj, path) => obj?.[path], messages as any)
+          expect(value, `Missing key ${key} in ${locale}.json`).toBeDefined()
+          expect(typeof value, `Key ${key} in ${locale}.json should be string`).toBe('string')
+          expect(value.length, `Key ${key} in ${locale}.json should not be empty`).toBeGreaterThan(0)
+        })
+      })
+    })
+  })
+
+  describe('Language Selector with Real Translations', () => {
+    it('shows correct language name in current locale', () => {
+      renderWithLocale(<LanguageSelector />, 'en')
+      
+      const button = screen.getByRole('button')
+      expect(button).toHaveTextContent('English')
+      expect(button).toHaveTextContent('🇺🇸')
+    })
+
+    it('opens dropdown and shows all language options with real names', async () => {
+      renderWithLocale(<LanguageSelector />, 'en')
+      
+      const trigger = screen.getByRole('button')
+      fireEvent.click(trigger)
+      
+      // Should show all language options with their native names
+      await waitFor(() => {
+        expect(screen.getByText('English')).toBeInTheDocument()
+        expect(screen.getByText('Русский')).toBeInTheDocument()
+        expect(screen.getByText('Français')).toBeInTheDocument()
+        expect(screen.getByText('Italiano')).toBeInTheDocument()
+        expect(screen.getByText('Eesti')).toBeInTheDocument()
+      })
+    })
+
+    it('triggers navigation when language is selected', async () => {
+      renderWithLocale(<LanguageSelector />, 'en')
+      
+      // Open dropdown and click Russian
+      fireEvent.click(screen.getByRole('button'))
+      await waitFor(() => screen.getByText('Русский'))
+      fireEvent.click(screen.getByText('Русский'))
+      
+      // Should call router for navigation
+      expect(mockPush).toHaveBeenCalled()
+    })
+  })
+
+  describe('Complete Localization Flow', () => {
+    it('demonstrates the localization difference between English and Russian', () => {
+      // Render English version
+      const { unmount: unmountEn } = renderWithLocale(<Navbar />, 'en')
+      
+      // Verify English content
+      expect(screen.getByText('Home')).toBeInTheDocument()
+      expect(screen.getByText('About')).toBeInTheDocument()
+      expect(screen.queryByText('Главная')).not.toBeInTheDocument()
+      
+      unmountEn()
+      
+      // Render Russian version
+      renderWithLocale(<Navbar />, 'ru')
+      
+      // Verify Russian content
+      expect(screen.getByText('Главная')).toBeInTheDocument()
+      expect(screen.getByText('О нас')).toBeInTheDocument()
+      expect(screen.queryByText('Home')).not.toBeInTheDocument()
+    })
+
+    it('verifies authentication buttons are translated correctly', () => {
+      // Test English auth buttons
+      renderWithLocale(<Navbar />, 'en')
+      expect(screen.getByText('Log in')).toBeInTheDocument()
+      expect(screen.getByText('Start selling')).toBeInTheDocument()
+    })
+
+    it('verifies Russian authentication buttons are translated correctly', () => {
+      // Test Russian auth buttons
+      renderWithLocale(<Navbar />, 'ru')
+      expect(screen.getByText('Войти')).toBeInTheDocument()
+      expect(screen.getByText('Начать продавать')).toBeInTheDocument()
+      
+      // Verify English is not present
+      expect(screen.queryByText('Log in')).not.toBeInTheDocument()
+      expect(screen.queryByText('Start selling')).not.toBeInTheDocument()
+    })
+  })
+
+  describe('Translation File Validation', () => {
+    it('ensures all locales have consistent translation keys', () => {
+      // Get all keys from English (reference locale)
+      const englishKeys = extractAllKeys(enMessages)
+      
+      Object.entries(messagesByLocale).forEach(([locale, messages]) => {
+        if (locale === 'en') return // Skip reference locale
+        
+        const localeKeys = extractAllKeys(messages)
+        
+        // Check that all English keys exist in other locales
+        englishKeys.forEach(key => {
+          expect(localeKeys, `Missing translation key "${key}" in ${locale}.json`).toContain(key)
+        })
+      })
+    })
+
+    it('validates that navigation translations are non-empty strings', () => {
+      Object.entries(messagesByLocale).forEach(([locale, messages]) => {
+        const nav = (messages as any).navigation
+        expect(nav, `Missing navigation section in ${locale}.json`).toBeDefined()
+        
+        ['home', 'about', 'features', 'pricing', 'contact'].forEach(key => {
+          const value = nav[key]
+          expect(value, `Missing navigation.${key} in ${locale}.json`).toBeDefined()
+          expect(typeof value, `navigation.${key} in ${locale}.json must be string`).toBe('string')
+          expect(value.trim(), `navigation.${key} in ${locale}.json must not be empty`).toBeTruthy()
+        })
+      })
+    })
+  })
+
+  describe('Error Cases', () => {
+    it('handles missing translation keys gracefully', () => {
+      // Create messages with missing keys
+      const incompleteMessages = {
+        navigation: {
+          home: 'Home'
+          // Missing other keys
+        }
+      }
+      
+      const component = (
+        <NextIntlClientProvider messages={incompleteMessages} locale="en">
+          <Navbar />
+        </NextIntlClientProvider>
+      )
+      
+      // Should not crash, may show fallback key names
+      expect(() => render(component)).not.toThrow()
+    })
+  })
+})
+
+// Helper function to extract all nested keys from a messages object
+function extractAllKeys(obj: any, prefix = ''): string[] {
+  const keys: string[] = []
+  
+  for (const [key, value] of Object.entries(obj)) {
+    const fullKey = prefix ? `${prefix}.${key}` : key
+    
+    if (value && typeof value === 'object') {
+      keys.push(...extractAllKeys(value, fullKey))
+    } else {
+      keys.push(fullKey)
+    }
+  }
+  
+  return keys
+}
