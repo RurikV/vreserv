@@ -31,7 +31,7 @@ export function NestProviders({
           children
         ),
     },
-    Component: providers[0],
+    Component: providers[0] as any, // eslint-disable-line @typescript-eslint/no-explicit-any
     importMap,
     serverProps,
   })

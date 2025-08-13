@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import type { Stripe } from 'stripe'
 import { stripe } from '@/lib/stripe'
 import { getPayload } from 'payload'
+import config from '@payload-config'
 
 // Next.js App Router API route for Stripe webhooks
 // Exposes POST(req: Request)
@@ -30,7 +31,7 @@ export async function POST(req: Request) {
           return NextResponse.json({ message: 'Webhook handler failed' }, { status: 500 })
         }
 
-        const payload = await getPayload()
+        const payload = await getPayload({ config })
         const user = await payload.findByID({ collection: 'users', id: userId })
         if (!user) {
           return NextResponse.json({ message: 'Webhook handler failed' }, { status: 500 })
@@ -47,14 +48,19 @@ export async function POST(req: Request) {
           const productMeta = prod?.metadata ?? {}
           const productName = prod?.name
 
+          // Skip order creation if product ID or name is missing
+          if (!productMeta.id || !productName) {
+            continue
+          }
+
           await payload.create({
             collection: 'orders',
             data: {
               user: userId,
               stripeCheckoutSessionId: sessionId,
               stripeAccountId: accountId,
-              productId: productMeta.id,
-              productName,
+              product: productMeta.id,
+              name: productName,
             },
           })
         }
@@ -66,7 +72,7 @@ export async function POST(req: Request) {
         const accountId = event?.account as string | undefined
         const detailsSubmitted = !!event?.data?.object?.details_submitted
 
-        const payload = await getPayload()
+        const payload = await getPayload({ config })
         await payload.update({
           collection: 'tenants',
           where: { stripeAccountId: { equals: accountId } },

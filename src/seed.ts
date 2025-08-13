@@ -214,7 +214,7 @@ const seed = async () => {
         username: "admin",
         tenants: [
           {
-            tenant: adminTenant.id,
+            tenant: adminTenant!.id,
           },
         ],
       },
@@ -251,9 +251,9 @@ const seed = async () => {
     for (const loc of locales) {
       await payload.update({
         collection: "categories",
-        id: parentCategory.id,
+        id: parentCategory!.id,
         data: { name: localizedParent[loc] },
-        locale: loc,
+        locale: loc as any, // eslint-disable-line @typescript-eslint/no-explicit-any
       });
     }
 
@@ -271,11 +271,11 @@ const seed = async () => {
       if (existingSubRes.docs.length > 0) {
         createdSub = existingSubRes.docs[0];
         // Ensure parent is set correctly if missing
-        if (!createdSub.parent) {
+        if (!createdSub!.parent) {
           await payload.update({
             collection: "categories",
-            id: createdSub.id,
-            data: { parent: parentCategory.id },
+            id: createdSub!.id,
+            data: { parent: parentCategory!.id },
           });
         }
       } else {
@@ -284,7 +284,7 @@ const seed = async () => {
           data: {
             name: subCategory.name,
             slug: subCategory.slug,
-            parent: parentCategory.id,
+            parent: parentCategory!.id,
           },
         });
       }
@@ -294,9 +294,9 @@ const seed = async () => {
       for (const loc of locales) {
         await payload.update({
           collection: "categories",
-          id: createdSub.id,
+          id: createdSub!.id,
           data: { name: localizedSub[loc] },
-          locale: loc,
+          locale: loc as any, // eslint-disable-line @typescript-eslint/no-explicit-any
         });
       }
     }

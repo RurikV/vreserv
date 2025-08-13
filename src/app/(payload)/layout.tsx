@@ -78,11 +78,11 @@ const Layout = async ({ children }: Args) => {
     })
   }
 
-  const navPrefs = await getNavPrefs(req)
+  const navPrefs = await getNavPrefs(req as any)
 
   const clientConfig = getClientConfig({
-    config: resolvedConfig,
-    i18n: req.i18n,
+    config: resolvedConfig as any,
+    i18n: req.i18n as any,
     importMap,
   })
 
@@ -105,15 +105,15 @@ const Layout = async ({ children }: Args) => {
 
   // IMPORTANT: Do not render <html> or <body> here to avoid nested HTML.
   // Provide the required Payload admin context only.
-  const providers = resolvedConfig?.admin?.components?.providers
+  const providers = (resolvedConfig as any)?.admin?.components?.providers
 
   return (
     <>
       <RootProvider
         config={clientConfig as any}
-        dateFNSKey={req.i18n.dateFNSKey}
-        fallbackLang={resolvedConfig.i18n.fallbackLanguage}
-        isNavOpen={navPrefs?.open ?? true}
+        dateFNSKey={req.i18n.dateFNSKey as any}
+        fallbackLang={resolvedConfig.i18n?.fallbackLanguage as any}
+        isNavOpen={(navPrefs as any)?.open ?? true}
         languageCode={languageCode as any}
         languageOptions={languageOptions as any}
         locale={req.locale as any}

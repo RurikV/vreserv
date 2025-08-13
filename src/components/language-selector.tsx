@@ -38,17 +38,9 @@ export function LanguageSelector() {
 
   const switchLanguage = (newLocale: Locale) => {
     // Use next-intl's locale-aware router to switch locales reliably
-    // Support both behaviors of usePathname:
-    // - next-intl createNavigation's usePathname (function generating localized paths)
-    // - Next.js/next-intl variants where usePathname returns a string
+    // pathname from createNavigation is always a string (current path)
     try {
-      if (typeof pathname === 'function') {
-        const target = pathname({ locale: newLocale } as any);
-        router.push(target);
-      } else {
-        // pathname is a string (current path); delegate locale switch to router
-        router.push(pathname as unknown as string, { locale: newLocale as any });
-      }
+      router.push(pathname, { locale: newLocale });
     } finally {
       setIsOpen(false);
     }

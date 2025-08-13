@@ -35,7 +35,7 @@ export const SearchFilters = () => {
 
   const activeSubcategory = params.subcategory as string | undefined;
   const activeSubcategoryName = activeCategoryData && activeSubcategory
-    ? t(`subcategories.${activeSubcategory}`, { default: activeCategoryData.subcategories?.find(s => s.slug === activeSubcategory)?.name })
+    ? t(`subcategories.${activeSubcategory}`, { default: activeCategoryData.subcategories?.find(s => s.slug === activeSubcategory)?.name ?? activeSubcategory })
     : null;
 
   return (
