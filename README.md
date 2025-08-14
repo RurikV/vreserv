@@ -1,7 +1,5 @@
 # Multi-Tenant e-reserve with Platform Fees
 
-![7](https://github.com/user-attachments/assets/cc429a6b-ae9a-43d1-ac22-15a15cc4955a)
-
 A modern e-reserve platform built with Next.js, Payload CMS, and Stripe, featuring multi-tenant architecture and platform fees capabilities.
 
 ## Features
@@ -20,6 +18,7 @@ A modern e-reserve platform built with Next.js, Payload CMS, and Stripe, featuri
 - 🗂️ Category & product filtering
 - 🔍 Search functionality
 - 🖼️ Image upload support
+- 🌍 Internationalization (i18n) - 5 languages supported
 - ⚙️ Built with Next.js 15
 - 🎨 TailwindCSS V4 styling
 - 💅 ShadcnUI components
@@ -166,12 +165,138 @@ yarn dev
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 
+## Testing
+
+The project uses Vitest for testing with React Testing Library and Jest DOM for comprehensive test coverage.
+
+```bash
+# Run tests once
+bun run test
+# or
+npm run test
+
+# Run tests in watch mode
+bun run test:watch
+# or
+npm run test:watch
+
+# Run tests with coverage report
+bun run test:coverage
+# or
+npm run test:coverage
+```
+
+## Localization
+
+The platform provides comprehensive internationalization (i18n) support using Next.js Intl, with 5 languages currently supported.
+
+### Supported Languages
+
+- 🇺🇸 **English (en)** - Default language
+- 🇫🇷 **French (fr)**
+- 🇮🇹 **Italian (it)**
+- 🇪🇪 **Estonian (et)**
+- 🇷🇺 **Russian (ru)**
+
+### Directory Structure
+
+Translation files are organized in the `messages/` directory:
+
+```
+messages/
+├── en.json      # English translations
+├── fr.json      # French translations
+├── it.json      # Italian translations
+├── et.json      # Estonian translations
+└── ru.json      # Russian translations
+```
+
+### Configuration
+
+The i18n configuration is handled by several key files:
+
+- **`src/i18n.ts`** - Main configuration with supported locales and message loading
+- **`src/middleware.ts`** - Handles locale detection and routing
+- **`src/navigation.ts`** - Locale-aware navigation utilities
+- **`next.config.ts`** - Next.js Intl plugin integration
+
+### Translation Structure
+
+Each translation file contains organized keys for different sections:
+
+```json
+{
+  "navigation": {
+    "home": "Home",
+    "categories": "Categories",
+    "library": "Library"
+  },
+  "auth": {
+    "login": "Log in",
+    "signup": "Start selling"
+  },
+  "cart": {
+    "addToCart": "Add to cart",
+    "removeFromCart": "Remove from cart"
+  },
+  "categories": {
+    "business-money": "Business & Money",
+    "software-development": "Software Development"
+  }
+}
+```
+
+### Adding New Languages
+
+To add a new language:
+
+1. **Create translation file**: Add a new JSON file in `messages/` (e.g., `messages/de.json`)
+
+2. **Update locale configuration** in `src/i18n.ts`:
+   ```typescript
+   export const locales = ['en', 'fr', 'it', 'et', 'ru', 'de'] as const;
+   ```
+
+3. **Copy structure from existing file**: Use `messages/en.json` as template and translate all keys
+
+4. **Test the new locale**: Navigate to `/de/` to verify the new language works
+
+### Adding New Translation Keys
+
+To add new translation keys:
+
+1. **Add to all language files**: Ensure consistency across all supported locales
+2. **Use in components**:
+   ```tsx
+   import { useTranslations } from 'next-intl';
+   
+   export default function MyComponent() {
+     const t = useTranslations('navigation');
+     return <span>{t('newKey')}</span>;
+   }
+   ```
+
+### URL Structure
+
+- **Development**: `http://localhost:3000/[locale]/...`
+- **Production**: `https://yourdomain.com/[locale]/...`
+
+Examples:
+- English: `/en/` or `/` (default)
+- French: `/fr/`
+- Italian: `/it/`
+- Estonian: `/et/`
+- Russian: `/ru/`
+
 ## Available Scripts
 
 - `dev` - Start development server
 - `build` - Build for production
 - `start` - Start production server
 - `lint` - Run ESLint
+- `test` - Run tests once
+- `test:watch` - Run tests in watch mode
+- `test:coverage` - Run tests with coverage report
 - `generate:types` - Generate Payload CMS types
 - `db:fresh` - Reset and migrate database
 - `db:seed` - Seed database with initial data

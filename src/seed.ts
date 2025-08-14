@@ -27,6 +27,119 @@ function buildLocalizedName(kind: "categories" | "subcategories", slug: string, 
   return result;
 }
 
+function selectTagsForProduct(categorySlug: string, subcategorySlug: string, productIndex: number, availableTags: Record<string, { id: string; name: string }>): string[] {
+  const selectedTags: string[] = [];
+  
+  // Always add skill level tag
+  const skillLevelTags = ["Beginner Friendly", "Intermediate", "Advanced"];
+  const skillTag = skillLevelTags[productIndex % skillLevelTags.length];
+  if (skillTag) selectedTags.push(skillTag);
+  
+  // Add content type tag based on category
+  if (categorySlug === "software-development") {
+    selectedTags.push(productIndex === 1 ? "Video Tutorial" : "Interactive Course");
+  } else if (categorySlug === "writing-publishing") {
+    selectedTags.push(productIndex === 1 ? "Templates & Tools" : "Step-by-Step Guide");
+  } else if (categorySlug === "design" || categorySlug === "drawing-painting") {
+    selectedTags.push(productIndex === 1 ? "Creative & Fun" : "Templates & Tools");
+  } else if (categorySlug === "business-money") {
+    selectedTags.push(productIndex === 1 ? "Data-Driven" : "Practical Focus");
+  } else if (categorySlug === "education") {
+    selectedTags.push(productIndex === 1 ? "Interactive Course" : "Quick Start");
+  } else if (categorySlug === "fitness-health") {
+    selectedTags.push(productIndex === 1 ? "30-Day Challenge" : "Daily Practice");
+  } else {
+    selectedTags.push("Digital Download");
+  }
+  
+  // Add quality/popularity tags (mix it up)
+  const qualityTags = ["Bestseller", "Editor's Choice", "Premium Quality", "Trending Now"];
+  if (Math.random() > 0.5) {
+    const qualityTag = qualityTags[productIndex % qualityTags.length];
+    if (qualityTag) selectedTags.push(qualityTag);
+  }
+  
+  // Add time commitment tag
+  const timeTags = ["Quick Wins", "Weekend Project", "Long-term Investment"];
+  const timeTag = timeTags[productIndex % timeTags.length];
+  if (timeTag) selectedTags.push(timeTag);
+  
+  // Add target audience tag based on subcategory
+  if (subcategorySlug.includes("professional") || subcategorySlug.includes("management") || subcategorySlug.includes("business")) {
+    selectedTags.push("For Professionals");
+  } else if (subcategorySlug.includes("beginner") || subcategorySlug.includes("intro") || productIndex === 1) {
+    selectedTags.push("For Beginners");
+  } else if (subcategorySlug.includes("entrepreneur") || subcategorySlug.includes("startup")) {
+    selectedTags.push("For Entrepreneurs");
+  } else if (categorySlug.includes("design") || categorySlug.includes("art") || categorySlug.includes("creative")) {
+    selectedTags.push("For Creatives");
+  } else {
+    selectedTags.push("For Students");
+  }
+  
+  // Add special feature tags
+  const featureTags = ["Lifetime Access", "Community Support", "Bonus Materials", "Mobile Friendly"];
+  const featureTag = featureTags[productIndex % featureTags.length];
+  if (featureTag) selectedTags.push(featureTag);
+  
+  // Filter to only include tags that exist and return their IDs
+  return selectedTags.filter(tag => availableTags[tag]).slice(0, 6); // Limit to 6 tags max
+}
+
+// Creative tags for products
+const tags = [
+  // Skill Level Tags
+  "Beginner Friendly",
+  "Intermediate",
+  "Advanced",
+  "Expert Level",
+  
+  // Content Type Tags
+  "Digital Download",
+  "Video Tutorial",
+  "Step-by-Step Guide",
+  "Templates & Tools",
+  "Live Session",
+  "Interactive Course",
+  
+  // Popular & Quality Tags
+  "Bestseller",
+  "Editor's Choice",
+  "Trending Now",
+  "Premium Quality",
+  "Quick Start",
+  "Comprehensive",
+  
+  // Time & Effort Tags
+  "30-Day Challenge",
+  "Weekend Project",
+  "Daily Practice",
+  "Quick Wins",
+  "Long-term Investment",
+  
+  // Style Tags
+  "Minimalist",
+  "Creative & Fun",
+  "Data-Driven",
+  "Practical Focus",
+  "Theory & Practice",
+  
+  // Target Audience Tags
+  "For Professionals",
+  "For Students",
+  "For Entrepreneurs",
+  "For Creatives",
+  "For Beginners",
+  
+  // Special Features
+  "Money-Back Guarantee",
+  "Lifetime Access",
+  "Community Support",
+  "Personal Feedback",
+  "Bonus Materials",
+  "Mobile Friendly",
+];
+
 const categories = [
   {
     name: "All",
@@ -221,6 +334,32 @@ const seed = async () => {
     });
   }
 
+  // Create tags (idempotent)
+  const createdTags: Record<string, { id: string; name: string }> = {};
+  for (const tagName of tags) {
+    const existingTagRes = await payload.find({
+      collection: "tags",
+      where: {
+        name: {
+          equals: tagName,
+        },
+      },
+      limit: 1,
+    });
+
+    if (existingTagRes.docs.length > 0 && existingTagRes.docs[0]) {
+      createdTags[tagName] = existingTagRes.docs[0];
+    } else {
+      const newTag = await payload.create({
+        collection: "tags",
+        data: {
+          name: tagName,
+        },
+      });
+      createdTags[tagName] = newTag;
+    }
+  }
+
   for (const category of categories) {
     // Find or create parent category by slug (idempotent)
     let parentCategory;
@@ -298,6 +437,117 @@ const seed = async () => {
           data: { name: localizedSub[loc] },
           locale: loc as any, // eslint-disable-line @typescript-eslint/no-explicit-any
         });
+      }
+
+      // Create products for this subcategory
+      for (let i = 1; i <= 2; i++) {
+        const productName = `${subCategory.name} Product ${i}`;
+        
+        // Check if product already exists (idempotent)
+        const existingProductRes = await payload.find({
+          collection: "products",
+          where: {
+            and: [
+              { name: { equals: productName } },
+              { category: { equals: createdSub!.id } },
+            ],
+          },
+          limit: 1,
+        });
+
+        // Select relevant tags for this product
+        const selectedTagNames = selectTagsForProduct(category.slug, subCategory.slug, i, createdTags);
+        const selectedTagIds = selectedTagNames
+          .map(tagName => createdTags[tagName])
+          .filter((tag): tag is { id: string; name: string } => !!tag)
+          .map(tag => tag.id);
+
+        let product;
+        if (existingProductRes.docs.length > 0 && existingProductRes.docs[0]) {
+          product = existingProductRes.docs[0];
+          // Update existing product with tags if they're not already set
+          if (!product.tags || product.tags.length === 0) {
+            await payload.update({
+              collection: "products",
+              id: product.id,
+              data: {
+                tags: selectedTagIds,
+              },
+            });
+          }
+        } else {
+          // Create product with basic data and tags
+          product = await payload.create({
+            collection: "products",
+            data: {
+              name: productName,
+              description: {
+                root: {
+                  type: "root",
+                  version: 1,
+                  direction: "ltr" as const,
+                  format: "" as const,
+                  indent: 0,
+                  children: [
+                    {
+                      type: "paragraph",
+                      version: 1,
+                      children: [
+                        {
+                          type: "text",
+                          text: `This is a sample product for ${subCategory.name}. Perfect for learning and getting started with ${subCategory.name.toLowerCase()}.`,
+                        },
+                      ],
+                    },
+                  ],
+                },
+              },
+              price: Math.floor(Math.random() * 100) + 10, // Random price between $10-110
+              category: createdSub!.id,
+              tags: selectedTagIds,
+              refundPolicy: "30-day",
+              isPrivate: false,
+              isArchived: false,
+              tenant: adminTenant!.id,
+            },
+          });
+        }
+
+        // Set English product name and description for all locales
+        for (const loc of locales) {
+          const englishProductName = `${subCategory.name} Product ${i}`;
+          const englishDescription = {
+            root: {
+              type: "root",
+              version: 1,
+              direction: "ltr" as const,
+              format: "" as const,
+              indent: 0,
+              children: [
+                {
+                  type: "paragraph",
+                  version: 1,
+                  children: [
+                    {
+                      type: "text",
+                      text: `This is a sample product for ${subCategory.name}. Perfect for learning and getting started with ${subCategory.name.toLowerCase()}.`,
+                    },
+                  ],
+                },
+              ],
+            },
+          };
+
+          await payload.update({
+            collection: "products",
+            id: product!.id,
+            data: {
+              name: englishProductName,
+              description: englishDescription,
+            },
+            locale: loc as any, // eslint-disable-line @typescript-eslint/no-explicit-any
+          });
+        }
       }
     }
   }
