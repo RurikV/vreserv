@@ -99,14 +99,20 @@ export const SignUpView = () => {
                 <FormItem>
                   <FormLabel className="text-base">Username</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input {...field} placeholder="e.g. my-shop, user123" />
                   </FormControl>
                   <FormDescription
-                    className={cn("hidden", showPreview && "block")}
+                    className={cn(showPreview && "block")}
                   >
-                    Your store will be available at&nbsp;
-                    {/* TODO: Use proper method to generate preview url */}
-                    <strong>{username}</strong>.shop.com
+                    {showPreview ? (
+                      <>
+                        Your store will be available at&nbsp;
+                        {/* TODO: Use proper method to generate preview url */}
+                        <strong>{username}</strong>.shop.com
+                      </>
+                    ) : (
+                      "3-63 characters, lowercase letters, numbers, hyphens only. Must start and end with letter or number."
+                    )}
                   </FormDescription>
                   <FormMessage />
                 </FormItem>

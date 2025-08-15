@@ -30,7 +30,11 @@ const languageFlags: Record<Locale, string> = {
   ru: '🇷🇺'
 };
 
-export function LanguageSelector() {
+interface LanguageSelectorProps {
+  onLanguageChange?: () => void;
+}
+
+export function LanguageSelector({ onLanguageChange }: LanguageSelectorProps) {
   const locale = useLocale() as Locale;
   const router = useRouter();
   const pathname = usePathname();
@@ -43,6 +47,10 @@ export function LanguageSelector() {
       router.push(pathname, { locale: newLocale });
     } finally {
       setIsOpen(false);
+      // Call the optional callback (e.g., to close mobile sidebar)
+      if (onLanguageChange) {
+        onLanguageChange();
+      }
     }
   };
 
@@ -59,7 +67,7 @@ export function LanguageSelector() {
           {languageNames[locale]}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="min-w-[150px]">
+      <DropdownMenuContent align="start" className="min-w-[150px]">
         {locales.map((loc) => (
           <DropdownMenuItem
             key={loc}

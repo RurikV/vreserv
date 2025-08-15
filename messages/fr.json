@@ -8,7 +8,8 @@
     "brand": "reserv",
     "menu": "Menu",
     "categories": "Catégories",
-    "library": "Bibliothèque"
+    "library": "Bibliothèque",
+    "language": "Langue"
   },
   "auth": {
     "login": "Se connecter",

@@ -8,7 +8,8 @@
     "brand": "reserv",
     "menu": "Меню",
     "categories": "Категории",
-    "library": "Библиотека"
+    "library": "Библиотека",
+    "language": "Язык"
   },
   "auth": {
     "login": "Войти",

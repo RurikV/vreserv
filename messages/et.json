@@ -8,7 +8,8 @@
     "brand": "reserv",
     "menu": "Menüü",
     "categories": "Kategooriad",
-    "library": "Raamatukogu"
+    "library": "Raamatukogu",
+    "language": "Keel"
   },
   "auth": {
     "login": "Logi sisse",

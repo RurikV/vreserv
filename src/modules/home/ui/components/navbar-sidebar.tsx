@@ -10,6 +10,7 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { LanguageSelector } from "@/components/language-selector";
 
 interface NavbarItem {
   href: string;
@@ -64,6 +65,15 @@ export const NavbarSidebar = ({
               {item.children}
             </button>
           ))}
+          
+          {/* Language Selector for mobile */}
+          <div className="border-t p-4">
+            <div className="text-sm font-medium text-gray-600 mb-2">
+              {t('navigation.language')}
+            </div>
+            <LanguageSelector onLanguageChange={() => onOpenChange(false)} />
+          </div>
+          
           <div className="border-t">
             <button 
               onClick={() => handleItemClick('/sign-in')}
